@@ -93,7 +93,9 @@ Added in this fork. After the clips are rendered, Claude can schedule them to In
 YouTube Shorts and Facebook for you.
 
 1. Make a free account at [zernio.com](https://zernio.com) and connect up to 2 accounts (free plan).
-2. Create an API key (Settings → API keys) and put `ZERNIO_API_KEY=...` in `skills\gta6-clipper\.env`.
+2. Connect Zernio's MCP to Claude Code (no API key). In a terminal:
+   `claude mcp add --transport http zernio https://mcp.zernio.com/mcp`
+   then restart Claude Code, type `/mcp`, pick **zernio** and sign in with your Zernio account.
 3. In Claude Code say **schedule these clips**. Claude shows the plan first, then uploads each clip and
    schedules one post per clip (first one in 1 hour, then every 2 hours). Captions and hashtags come from the clip's `.txt`.
 

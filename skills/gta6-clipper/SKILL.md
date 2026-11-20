@@ -72,18 +72,26 @@ Remind the user: watch every clip before posting, and only clip streamers who ar
 ## 6. Schedule to socials (Zernio, optional)
 
 Only when the user asks to post/schedule the clips, or says yes when you offer it after the report.
-Needs `ZERNIO_API_KEY` in `$S/.env` (free key at zernio.com; the free plan covers 2 connected accounts).
-If it's missing, tell the user how to get it and stop: never ask them to paste the key into the chat.
+Uses the **Zernio MCP** (free plan: 2 connected accounts, no API key). If its tools aren't available, tell the
+user to run once in a terminal: `claude mcp add --transport http zernio https://mcp.zernio.com/mcp`,
+then restart Claude Code, type `/mcp`, pick zernio and sign in with their Zernio account. Then stop.
 
-1. `"$S/.venv/Scripts/python.exe" "$S/scripts/zernio_post.py" accounts` lists the connected accounts.
-   Ask which ones to post to (default: all listed).
-2. `... zernio_post.py schedule <run> --accounts <id,id> --dry-run` and show the plan (clip -> networks -> time).
-3. On the user's yes, run it again without `--dry-run`. Default: first post in 60 min, then one every 120 min
-   (`--start`, `--gap`). `--draft` saves drafts instead of scheduling. Caption and hashtags come from each clip's `.txt`.
-4. Tell the user the times and that every post can be reviewed or cancelled in the Zernio dashboard before it goes out.
-   `clips/zernio.json` remembers what was scheduled, so re-running never posts a clip twice.
+1. `accounts_list` → show the Instagram / TikTok / YouTube / Facebook accounts, ask which to post to.
+2. Read `<run>/clips/zernio.json` (skip clips already in it). For each new `clip_NN_*.mp4` read its `.txt`
+   (TITLE, CAPTION, hashtags). Show the plan: clip → accounts → time (first in 60 min, then every 120 min,
+   unless the user says otherwise). Wait for yes.
+3. Per clip:
+   - `media_get_media_presigned_url` with `filename`, `content_type: "video/mp4"`, `size` → uploadUrl + publicUrl.
+   - Upload with Bash: `curl -sS -f -X PUT -H "Content-Type: video/mp4" --upload-file "<mp4>" "<uploadUrl>"`
+     (the upload link lives 1 hour, so get it right before the upload).
+   - `posts_create` once per chosen account: `content` = caption + blank line + hashtags, `platform`, `account_id`,
+     `media_urls` = publicUrl, `schedule_minutes` = minutes from now, `title` = TITLE (required for YouTube).
+     `is_draft: true` if the user asked for drafts.
+   - Append `{"<mp4 name>": {"post_ids": [...], "minutes": N}}` to `clips/zernio.json` right away.
+4. Tell the user the times, and that every post can be reviewed or cancelled in the Zernio dashboard before it goes out.
 
-Never schedule a clip the user hasn't watched or approved. Never use publish-now.
+Never schedule a clip the user hasn't watched or approved. Never use `publish_now`.
+No MCP (for example a scheduled run)? `scripts/zernio_post.py` does the same over the API with `ZERNIO_API_KEY` in `$S/.env`.
 
 ## Other requests
 
