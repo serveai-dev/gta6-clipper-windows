@@ -7,7 +7,7 @@ Two free Claude Code skills that turn GTA 6 streams into ready-to-post vertical 
 
 Every clip comes out 1080x1920: facecam on top, gameplay below, a hook title, word-by-word captions, and a post caption with hashtags.
 
-**Windows version** (Windows 10 or 11, 64-bit). On a Mac? Use the Mac version: https://github.com/vossashtonai/gta6-clipper
+**Windows version** (Windows 10 or 11, 64-bit). On a Mac? Use the Mac version: https://github.com/serveai-dev/gta6-clipper
 
 ## Install
 
@@ -17,7 +17,7 @@ Every clip comes out 1080x1920: facecam on top, gameplay below, a hook title, wo
 2. Paste this and press Enter:
 
 ```powershell
-irm https://raw.githubusercontent.com/vossashtonai/gta6-clipper-windows/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/serveai-dev/gta6-clipper-windows/main/install.ps1 | iex
 ```
 
 3. Wait for **READY** (first time takes 5 to 10 minutes, it downloads about 800 MB).
@@ -29,7 +29,7 @@ it printed and paste it into Claude Code: it will fix it for you.
 ### Option B: paste this into Claude Code
 
 ```text
-Install the GTA 6 Clipper for Windows from https://github.com/vossashtonai/gta6-clipper-windows.
+Install the GTA 6 Clipper for Windows from https://github.com/serveai-dev/gta6-clipper-windows.
 Clone the repo to a temporary folder, then copy BOTH folders inside its skills/ folder
 (gta6-clipper and gta6-live-clipper) into my Claude skills folder (%USERPROFILE%\.claude\skills\)
 so they sit side by side.
@@ -43,7 +43,7 @@ Tell me what it installed and whether it says READY. Then remind me to restart C
 In Claude Code:
 
 ```text
-/plugin marketplace add vossashtonai/gta6-clipper-windows
+/plugin marketplace add serveai-dev/gta6-clipper-windows
 /plugin install gta6-clipper-windows@ashtonvossai-windows
 ```
 
@@ -52,7 +52,7 @@ Then say **set up the GTA 6 clipper**.
 ### Option D: by hand (PowerShell)
 
 ```powershell
-git clone https://github.com/vossashtonai/gta6-clipper-windows.git $env:TEMP\gta6-clipper-windows
+git clone https://github.com/serveai-dev/gta6-clipper-windows.git $env:TEMP\gta6-clipper-windows
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
 Copy-Item -Recurse -Force "$env:TEMP\gta6-clipper-windows\skills\*" "$env:USERPROFILE\.claude\skills\"
 powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.claude\skills\gta6-clipper\scripts\setup.ps1"
@@ -87,6 +87,18 @@ Clips land in `GTA6-Clips` in your user folder (`C:\Users\<you>\GTA6-Clips`). Ea
 
 Chat is counted, never read: 10-second buckets, a spike is 8+ messages at 2.5x the normal rate. Loud means 9 dB above the streamer's own normal. The facecam is found by looking for a face, and box edges, that stay still while the gameplay moves.
 
+## Auto-schedule the clips (Zernio)
+
+Added in this fork. After the clips are rendered, Claude can schedule them to Instagram, TikTok,
+YouTube Shorts and Facebook for you.
+
+1. Make a free account at [zernio.com](https://zernio.com) and connect up to 2 accounts (free plan).
+2. Create an API key (Settings → API keys) and put `ZERNIO_API_KEY=...` in `skills\gta6-clipper\.env`.
+3. In Claude Code say **schedule these clips**. Claude shows the plan first, then uploads each clip and
+   schedules one post per clip (first one in 1 hour, then every 2 hours). Captions and hashtags come from the clip's `.txt`.
+
+Every post waits in the Zernio dashboard until its time, so you can still review or cancel it. A clip is never scheduled twice.
+
 ## Run it free
 
 Picking (step 4) is the only part that uses AI. Everything else runs on your PC. To run without a Claude subscription:
@@ -112,6 +124,7 @@ The free model is slower and its picks are rougher than Claude's. Expect some ba
 
 ## Made by
 
-[Ashton Voss AI](https://www.youtube.com/@ashtonvossai). More free AI systems in the AI Alliance Community.
+[Ashton Voss AI](https://www.youtube.com/@ashtonvossai) (original: https://github.com/vossashtonai/gta6-clipper-windows).
+More free AI systems in the AI Alliance Community. Zernio auto-scheduling added by Serve AI.
 
 MIT licensed.

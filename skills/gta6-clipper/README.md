@@ -39,7 +39,7 @@ forth. It still beats scrubbing a stream by hand.
 
 ## Good to know
 
-- Windows 10 or 11 (64-bit). Mac version: https://github.com/vossashtonai/gta6-clipper
+- Windows 10 or 11 (64-bit). Mac version: https://github.com/serveai-dev/gta6-clipper
 - Age-restricted YouTube streams (common with GTA) and Kick need your browser login: tell Claude to use
   `--cookies chrome`.
 - YouTube streams that are still live can be clipped once the replay is up. Twitch archives work while live.

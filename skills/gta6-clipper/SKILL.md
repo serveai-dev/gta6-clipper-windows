@@ -1,6 +1,6 @@
 ---
 name: gta6-clipper
-description: GTA 6 Clipper. Turns GTA 6 streams into ready-to-post vertical clips (facecam on top, gameplay below, hook title, word-by-word captions, post caption + hashtags). Activates on "set up the GTA 6 clipper", "clip this stream <link>", "find me today's biggest GTA 6 streams and clip them", /gta6-clipper, /clip, or any request to clip a YouTube, Twitch or Kick stream. Downloads audio only, transcribes on the PC, marks loud moments and chat spikes, the Claude session itself reads the transcript 12 minutes at a time and scores moments (no API keys), then downloads only the needed minutes and renders 3 clips per stream. Works on a Claude subscription or free via Ollama (ollama launch claude). Windows edition (Windows 10/11, 64-bit).
+description: GTA 6 Clipper. Turns GTA 6 streams into ready-to-post vertical clips (facecam on top, gameplay below, hook title, word-by-word captions, post caption + hashtags). Activates on "set up the GTA 6 clipper", "clip this stream <link>", "find me today's biggest GTA 6 streams and clip them", /gta6-clipper, /clip, or any request to clip a YouTube, Twitch or Kick stream. Downloads audio only, transcribes on the PC, marks loud moments and chat spikes, the Claude session itself reads the transcript 12 minutes at a time and scores moments (no API keys), then downloads only the needed minutes and renders 3 clips per stream. Optionally schedules the clips to Instagram, TikTok, YouTube and Facebook through Zernio ("schedule these clips"). Works on a Claude subscription or free via Ollama (ollama launch claude). Windows edition (Windows 10/11, 64-bit).
 ---
 
 # GTA 6 Clipper
@@ -68,6 +68,22 @@ writes `clips/clip_NN_<title>.mp4` + `clip_NN_<title>.txt` (title, post caption,
 Per stream: stream length -> moments found -> clips kept, total time, and each clip's title, timestamp,
 length, layout (facecam / cam / gameplay) and file path. Open the clips folder with `explorer.exe "<run>\clips"` (Windows path, backslashes).
 Remind the user: watch every clip before posting, and only clip streamers who are fine with clipping.
+
+## 6. Schedule to socials (Zernio, optional)
+
+Only when the user asks to post/schedule the clips, or says yes when you offer it after the report.
+Needs `ZERNIO_API_KEY` in `$S/.env` (free key at zernio.com; the free plan covers 2 connected accounts).
+If it's missing, tell the user how to get it and stop: never ask them to paste the key into the chat.
+
+1. `"$S/.venv/Scripts/python.exe" "$S/scripts/zernio_post.py" accounts` lists the connected accounts.
+   Ask which ones to post to (default: all listed).
+2. `... zernio_post.py schedule <run> --accounts <id,id> --dry-run` and show the plan (clip -> networks -> time).
+3. On the user's yes, run it again without `--dry-run`. Default: first post in 60 min, then one every 120 min
+   (`--start`, `--gap`). `--draft` saves drafts instead of scheduling. Caption and hashtags come from each clip's `.txt`.
+4. Tell the user the times and that every post can be reviewed or cancelled in the Zernio dashboard before it goes out.
+   `clips/zernio.json` remembers what was scheduled, so re-running never posts a clip twice.
+
+Never schedule a clip the user hasn't watched or approved. Never use publish-now.
 
 ## Other requests
 
